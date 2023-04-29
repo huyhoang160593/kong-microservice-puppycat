@@ -60,7 +60,7 @@ Nếu như bạn gặp phải trường hợp có vấn đề về dữ liệu d
 
 Hiện giờ dự án đang có hai services tích hợp vào gateway. Kong Gate way được thiết đặt theo hướng DBLESS nên là cổng 8001 sẽ chỉ có thể lấy được dữ liệu setting service và router chứ không thể gửi dữ liệu mới vào. Bạn muốn xem cài đặt thì hãy truy cập vào tệp tin `compose/kong/declarative/kong.yml` để biết thêm chi tiết nhé.
 
-Danh sách các api đã viết tương ứng với từng service sẽ được liệt kê khi bạn truy cập vào hai địa chỉ sau:
+Danh sách các api đã viết tương ứng với từng service sẽ được liệt kê khi bạn truy cập vào hai địa chỉ sau(Sau khi khởi chạy docker):
 
 - [Product Services API Documentation](http://localhost:8000/productServices/documentation/static/index.html#/)
 - [User Services API Documentation](http://localhost:8000/userServices/documentation/static/index.html#/)
