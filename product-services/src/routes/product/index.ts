@@ -6,7 +6,7 @@ const product: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
 		method: 'GET',
 		url: '/',
 		async handler(req, res) {
-			void res.send('product router setting okey');
+			void res.send('this is a test router, nothing is in here for you to check');
 		},
 	});
 };

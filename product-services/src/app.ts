@@ -21,8 +21,8 @@ const app: FastifyPluginAsync<AppOptions> = async (
 	void fastify.register(fastifySwagger, {
 		openapi: {
 			info: {
-				title: 'UserApi',
-				description: 'The microserver for user',
+				title: 'ProductApi',
+				description: 'The microserver for product',
 				version: '0.0.1',
 			},
 			servers: [],

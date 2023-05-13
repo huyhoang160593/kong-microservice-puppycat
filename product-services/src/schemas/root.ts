@@ -1,7 +1,18 @@
 import {z} from 'zod';
 import Product from './prisma/Product';
+import Category from './prisma/Category';
+
+interface BaseSchema {
+	params: Record<string, z.ZodTypeAny>;
+	body: Record<string, z.ZodTypeAny>;
+	response: Record<string, z.ZodTypeAny>;
+}
 
 const productParams = Product.pick({
+	id: true,
+});
+
+const CategoryParams = Category.pick({
 	id: true,
 });
 
@@ -32,4 +43,22 @@ export const ProductSchema = {
 		PUT_PRODUCT: Product,
 		DELETE_PRODUCT: z.null(),
 	},
-} as const;
+} satisfies BaseSchema;
+
+export const CategorySchema = {
+	params: {
+		GET_CATEGORY: CategoryParams,
+		DELETE_CATEGORY: CategoryParams,
+	},
+	body: {
+		POST_CATEGORY: Category.pick({
+			name: true,
+		}),
+	},
+	response: {
+		GET_CATEGORIES: z.array(Category),
+		GET_CATEGORY: Category,
+		POST_CATEGORY: Category,
+		DELETE_CATEGORY: z.null(),
+	},
+} satisfies BaseSchema;

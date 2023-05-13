@@ -1,6 +1,6 @@
 import type {FastifyPluginAsync} from 'fastify';
 import {ProductSchema} from '../schemas/root';
-import {ErrorResponse as errorResponse} from '../schemas/base/TypeErrorResponse';
+import {errorResponse} from '../schemas/base/TypeErrorResponse';
 import {type ZodTypeProvider} from 'fastify-type-provider-zod';
 
 const root: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
@@ -9,12 +9,17 @@ const root: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
 	 * */
 	fastify.get('/health/check', async (_request, _reply) => ({status: 'online'}));
 
+	const TAGS = {
+		tags: ['product'],
+	};
+
 	fastify.withTypeProvider<ZodTypeProvider>().get('/', {
 		schema: {
 			response: {
 				200: ProductSchema.response.GET_PRODUCTS,
 				400: errorResponse(400),
 			},
+			...TAGS,
 		},
 	}, async (_request, response) => {
 		const products = await fastify.prisma.product.findMany({});
@@ -28,6 +33,7 @@ const root: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
 				200: ProductSchema.response.GET_PRODUCT,
 				400: errorResponse(400),
 			},
+			...TAGS,
 		},
 	}, async (request, response) => {
 		const {id} = request.params;
@@ -50,6 +56,7 @@ const root: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
 				201: ProductSchema.response.POST_PRODUCT,
 				400: errorResponse(400),
 			},
+			...TAGS,
 		},
 	}, async (request, response) => {
 		const {name, description, prices, categoryId} = request.body;
@@ -69,6 +76,7 @@ const root: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
 				200: ProductSchema.response.PUT_PRODUCT,
 				400: errorResponse(400),
 			},
+			...TAGS,
 		},
 	}, async (request, response) => {
 		const {id} = request.params;
@@ -90,6 +98,7 @@ const root: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
 				204: ProductSchema.response.DELETE_PRODUCT,
 				400: errorResponse(400),
 			},
+			...TAGS,
 		},
 	}, async (request, response) => {
 		const {id} = request.params;
