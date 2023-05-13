@@ -48,10 +48,14 @@ export const ProductSchema = {
 export const CategorySchema = {
 	params: {
 		GET_CATEGORY: CategoryParams,
+		PUT_CATEGORY: CategoryParams,
 		DELETE_CATEGORY: CategoryParams,
 	},
 	body: {
 		POST_CATEGORY: Category.pick({
+			name: true,
+		}),
+		PUT_CATEGORY: Category.pick({
 			name: true,
 		}),
 	},
@@ -59,6 +63,7 @@ export const CategorySchema = {
 		GET_CATEGORIES: z.array(Category),
 		GET_CATEGORY: Category,
 		POST_CATEGORY: Category,
+		PUT_CATEGORY: Category,
 		DELETE_CATEGORY: z.null(),
 	},
 } satisfies BaseSchema;

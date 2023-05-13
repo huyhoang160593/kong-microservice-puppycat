@@ -17,7 +17,11 @@ const category: FastifyPluginAsync = async (fastify, _otps): Promise<void> => {
 			...TAGS,
 		},
 	}, async (_request, response) => {
-		const categories = await fastify.prisma.category.findMany({});
+		const categories = await fastify.prisma.category.findMany({
+			include: {
+				product: true,
+			},
+		});
 		return response.send(categories);
 	});
 
@@ -35,6 +39,9 @@ const category: FastifyPluginAsync = async (fastify, _otps): Promise<void> => {
 		const categoryFound = await fastify.prisma.category.findFirst({
 			where: {
 				id,
+			},
+			include: {
+				product: true,
 			},
 		});
 		if (!categoryFound) {
@@ -61,6 +68,29 @@ const category: FastifyPluginAsync = async (fastify, _otps): Promise<void> => {
 			},
 		});
 		return response.status(201).send(categoryCreated);
+	});
+
+	fastifyWithZod.put('/:id', {
+		schema: {
+			params: CategorySchema.params.PUT_CATEGORY,
+			body: CategorySchema.body.PUT_CATEGORY,
+			response: {
+				201: CategorySchema.response.PUT_CATEGORY,
+				400: errorResponse(400),
+			},
+			...TAGS,
+		},
+	}, async (request, response) => {
+		const {id} = request.params;
+		const {name} = request.body;
+		const categoryUpdated = await fastify.prisma.product.update({
+			where: {
+				id,
+			}, data: {
+				name,
+			},
+		});
+		return response.send(categoryUpdated);
 	});
 
 	fastifyWithZod.delete('/:id', {

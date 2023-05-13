@@ -22,7 +22,10 @@ const root: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
 			...TAGS,
 		},
 	}, async (_request, response) => {
-		const products = await fastify.prisma.product.findMany({});
+		const products = await fastify.prisma.product.findMany({
+			include: {
+				category: true,
+			}});
 		return response.send(products);
 	});
 
@@ -40,6 +43,9 @@ const root: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
 		const productFound = await fastify.prisma.product.findFirst({
 			where: {
 				id,
+			},
+			include: {
+				category: true,
 			},
 		});
 		if (!productFound) {
@@ -80,12 +86,12 @@ const root: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
 		},
 	}, async (request, response) => {
 		const {id} = request.params;
-		const {name, description, prices} = request.body;
+		const {name, description, prices, categoryId} = request.body;
 		const productUpdated = await fastify.prisma.product.update({
 			where: {
 				id,
 			}, data: {
-				name, prices, description,
+				name, prices, description, categoryId,
 			},
 		});
 		return response.send(productUpdated);
