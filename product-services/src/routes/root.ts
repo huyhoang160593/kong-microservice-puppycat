@@ -4,7 +4,9 @@ import {ErrorResponse as errorResponse} from '../schemas/base/TypeErrorResponse'
 import {type ZodTypeProvider} from 'fastify-type-provider-zod';
 
 const root: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
-	// fastify.get('/', async (_request, _reply) => ({status: true}));
+	/**
+	 * @deprecated fastify.get('/', async (_request, _reply) => ({status: true}));
+	 * */
 	fastify.get('/health/check', async (_request, _reply) => ({status: 'online'}));
 
 	fastify.withTypeProvider<ZodTypeProvider>().get('/', {
@@ -29,9 +31,11 @@ const root: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
 		},
 	}, async (request, response) => {
 		const {id} = request.params;
-		const productFound = await fastify.prisma.product.findFirst({where: {
-			id,
-		}});
+		const productFound = await fastify.prisma.product.findFirst({
+			where: {
+				id,
+			},
+		});
 		if (!productFound) {
 			throw fastify.httpErrors.badRequest(`the product with id ${id} didn't exist`);
 		}
@@ -48,10 +52,10 @@ const root: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
 			},
 		},
 	}, async (request, response) => {
-		const {name, description, prices} = request.body;
+		const {name, description, prices, categoryId} = request.body;
 		const productCreated = await fastify.prisma.product.create({
 			data: {
-				name, prices, description,
+				name, prices, description, categoryId,
 			},
 		});
 		return response.status(201).send(productCreated);
@@ -69,11 +73,13 @@ const root: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
 	}, async (request, response) => {
 		const {id} = request.params;
 		const {name, description, prices} = request.body;
-		const productUpdated = await fastify.prisma.product.update({where: {
-			id,
-		}, data: {
-			name, prices, description,
-		}});
+		const productUpdated = await fastify.prisma.product.update({
+			where: {
+				id,
+			}, data: {
+				name, prices, description,
+			},
+		});
 		return response.send(productUpdated);
 	});
 

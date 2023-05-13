@@ -11,10 +11,36 @@ datasource db {
 }
 
 model Product {
-  id     String  @id @default(uuid()) @db.Uuid
-  name   String? @db.VarChar(255)
-  prices Int     @db.Integer
-  description String? @db.Text
+  id            String       @id @default(uuid()) @db.Uuid
+  name          String?      @db.VarChar(255)
+  prices        Int          @db.Integer
+  description   String?      @db.Text
+  categoryId    String       @db.Uuid
+  category      Category     @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  subcategoryId String?      @db.Uuid
+  subCategory   SubCategory? @relation(fields: [subcategoryId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Category {
+  id          String        @id @default(uuid()) @db.Uuid
+  name        String?       @db.VarChar(255)
+  product     Product[]
+  subCategory SubCategory[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model SubCategory {
+  id         String    @id @default(uuid()) @db.Uuid
+  name       String?   @db.VarChar(255)
+  categoryId String    @db.Uuid
+  category   Category  @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  product    Product[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 }

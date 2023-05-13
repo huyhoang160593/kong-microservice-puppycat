@@ -1,5 +1,5 @@
 import {z} from 'zod';
-import Product from './prisma/product';
+import Product from './prisma/Product';
 
 const productParams = Product.pick({
 	id: true,
@@ -16,11 +16,13 @@ export const ProductSchema = {
 			name: true,
 			prices: true,
 			description: true,
+			categoryId: true,
 		}),
 		PUT_PRODUCT: Product.pick({
 			name: true,
 			prices: true,
 			description: true,
+			categoryId: true,
 		}),
 	},
 	response: {
