@@ -37,7 +37,9 @@ export const ProductSchema = {
 		}),
 	},
 	response: {
-		GET_PRODUCTS: z.array(Product),
+		GET_PRODUCTS: z.array(Product.extend({
+			category: Category,
+		})),
 		GET_PRODUCT: Product,
 		POST_PRODUCT: Product,
 		PUT_PRODUCT: Product,
@@ -60,8 +62,12 @@ export const CategorySchema = {
 		}),
 	},
 	response: {
-		GET_CATEGORIES: z.array(Category),
-		GET_CATEGORY: Category,
+		GET_CATEGORIES: z.array(Category.extend({
+			product: z.array(Product),
+		})),
+		GET_CATEGORY: Category.extend({
+			product: z.array(Product),
+		}),
 		POST_CATEGORY: Category,
 		PUT_CATEGORY: Category,
 		DELETE_CATEGORY: z.null(),

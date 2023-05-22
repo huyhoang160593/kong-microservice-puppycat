@@ -1,5 +1,4 @@
 import {z} from 'zod';
-import Category from './Category';
 
 const Product = z.object({
 	id: z.string().uuid(),
@@ -7,7 +6,6 @@ const Product = z.object({
 	prices: z.number().int(),
 	description: z.string().nullable(),
 	categoryId: z.string().uuid(),
-	category: Category.optional(),
 	createdAt: z.date(),
 	updatedAt: z.date(),
 });

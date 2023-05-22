@@ -22,6 +22,7 @@ const category: FastifyPluginAsync = async (fastify, _otps): Promise<void> => {
 				product: true,
 			},
 		});
+		console.dir(categories, {depth: null});
 		return response.send(categories);
 	});
 
@@ -83,7 +84,7 @@ const category: FastifyPluginAsync = async (fastify, _otps): Promise<void> => {
 	}, async (request, response) => {
 		const {id} = request.params;
 		const {name} = request.body;
-		const categoryUpdated = await fastify.prisma.product.update({
+		const categoryUpdated = await fastify.prisma.category.update({
 			where: {
 				id,
 			}, data: {
