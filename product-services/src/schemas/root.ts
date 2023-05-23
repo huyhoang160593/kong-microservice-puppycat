@@ -1,6 +1,7 @@
 import {z} from 'zod';
 import Product from './prisma/Product';
 import Category from './prisma/Category';
+import {imgbbResponse} from './base/imgbbResponse';
 
 interface BaseSchema {
 	params: Record<string, z.ZodTypeAny>;
@@ -15,6 +16,24 @@ const productParams = Product.pick({
 const CategoryParams = Category.pick({
 	id: true,
 });
+
+const fileSchema = z.object({
+	filename: z.string().optional(),
+	mimetype: z.string().optional(),
+	encoding: z.string().optional(),
+}).catchall(z.any());
+
+export const UploadSchema = {
+	params: {},
+	body: {
+		POST_FILE: z.object({
+			file: fileSchema,
+		}),
+	},
+	response: {
+		POST_FILE: imgbbResponse,
+	},
+} satisfies BaseSchema;
 
 export const ProductSchema = {
 	params: {

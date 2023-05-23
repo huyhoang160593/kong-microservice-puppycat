@@ -104,6 +104,7 @@ services:
       - SERVER_HOSTNAME=$PRODUCT_SERVICES_HOSTNAME
       - DATABASE_URL=$DATABASE_PRODUCTDB_URL
       - JWT_SECRET=$JWT_SECRET
+      - IMGBB_KEY=$IMGBB_KEY
     volumes:
       - ./product-services/src:/home/node/app/src
       - ./product-services/prisma:/home/node/app/prisma

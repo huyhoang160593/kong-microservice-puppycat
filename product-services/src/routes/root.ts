@@ -1,13 +1,35 @@
 import type {FastifyPluginAsync} from 'fastify';
-import {ProductSchema} from '../schemas/root';
+import * as FormData from 'form-data';
+import {ProductSchema, UploadSchema} from '../schemas/root';
 import {errorResponse} from '../schemas/base/TypeErrorResponse';
 import {type ZodTypeProvider} from 'fastify-type-provider-zod';
+import {type imgbbResponse} from '../schemas/base/imgbbResponse';
 
 const root: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
 	/**
 	 * @deprecated fastify.get('/', async (_request, _reply) => ({status: true}));
 	 * */
 	fastify.get('/health/check', async (_request, _reply) => ({status: 'online'}));
+	fastify.withTypeProvider<ZodTypeProvider>().post('/upload/image', {
+		schema: {
+			consumes: ['multipart/form-data'],
+			body: UploadSchema.body.POST_FILE,
+			response: {
+				200: UploadSchema.response.POST_FILE,
+			},
+		},
+	}, async (request, response) => {
+		const {file} = request.body;
+		const buffer = await file.toBuffer() as Buffer;
+		const base64Image = Buffer.from(buffer).toString('base64');
+
+		const imgbbURL = new URL('https://api.imgbb.com/1/upload');
+		imgbbURL.searchParams.append('key', process.env.IMGBB_KEY!);
+		const formData = new FormData.default();
+		formData.append('image', base64Image);
+		const uploadResponse = await fastify.got.post(imgbbURL.toString(), {body: formData}).json();
+		return response.send(uploadResponse as Zod.infer<typeof imgbbResponse>);
+	});
 
 	const TAGS = {
 		tags: ['product'],

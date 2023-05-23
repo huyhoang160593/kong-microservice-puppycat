@@ -14,6 +14,7 @@ model Product {
   id            String       @id @default(uuid()) @db.Uuid
   name          String?      @db.VarChar(255)
   prices        Int          @db.Integer
+  imageURL      String?      @db.Text
   description   String?      @db.Text
   categoryId    String       @db.Uuid
   category      Category     @relation(fields: [categoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)

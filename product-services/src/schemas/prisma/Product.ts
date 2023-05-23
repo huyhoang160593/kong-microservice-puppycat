@@ -5,6 +5,7 @@ const Product = z.object({
 	name: z.string().max(255, {message: 'Must be 255 or fewer characters long'}).nullable(),
 	prices: z.number().int(),
 	description: z.string().nullable(),
+	imageURL: z.string().nullable(),
 	categoryId: z.string().uuid(),
 	createdAt: z.date(),
 	updatedAt: z.date(),
