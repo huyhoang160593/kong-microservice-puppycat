@@ -35,9 +35,9 @@ const dataSchema = z.object({
 	size: z.number(),
 	time: z.number(),
 	expiration: z.number(),
-	image: imageSchema,
-	thumb: thumbSchema,
-	medium: mediumSchema,
+	image: imageSchema.optional(),
+	thumb: thumbSchema.optional(),
+	medium: mediumSchema.optional(),
 	delete_url: z.string(),
 });
 
