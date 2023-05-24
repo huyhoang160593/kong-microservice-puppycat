@@ -19,7 +19,7 @@ const CategoryParams = Category.pick({
 
 const fileSchema = z.object({
 	filename: z.string().optional(),
-	mimetype: z.string().optional(),
+	mimetype: z.string().regex(/^image\/\w+$/, 'the file must be an image').optional(),
 	encoding: z.string().optional(),
 }).catchall(z.any());
 

@@ -10,5 +10,9 @@ import fp from 'fastify-plugin';
 export default fp<FastifyMultipartOptions>(async (fastify, _opts) => {
 	void fastify.register(multipart, {
 		attachFieldsToBody: true,
+		limits: {
+			files: 1,
+			fileSize: 33554432,
+		},
 	});
 });
