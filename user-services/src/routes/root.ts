@@ -18,9 +18,11 @@ const root: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
 	}, async (request, response) => {
 		const {id} = request.params;
 
-		const foundUser = await fastify.prisma.user.findFirst({where: {
-			id,
-		}});
+		const foundUser = await fastify.prisma.user.findFirst({
+			where: {
+				id,
+			},
+		});
 		if (!foundUser) {
 			throw fastify.httpErrors.badRequest(`We can find the user with the id ${id} in the database`);
 		}
@@ -81,6 +83,24 @@ const root: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
 		return response.send({
 			token, email, name: userFound.name,
 		});
+	});
+
+	fastify.withTypeProvider<ZodTypeProvider>().put('/:id', {
+		schema: {
+			params: UserSchema.params.PUT_USER,
+			body: UserSchema.body.PUT_USER,
+			response: {
+				200: UserSchema.response.PUT_USER,
+				400: errorResponse(400),
+			},
+		},
+	}, async (request, response) => {
+		const {id} = request.params;
+		const {avatarUrl, name} = request.body;
+		const userUpdated = await fastify.prisma.user.update({where: {id}, data: {
+			name, avatarUrl,
+		}});
+		return response.send(userUpdated);
 	});
 };
 
