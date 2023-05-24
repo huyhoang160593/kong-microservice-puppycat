@@ -46,11 +46,13 @@ export const ProductSchema = {
 			name: true,
 			prices: true,
 			description: true,
+			imageURL: true,
 			categoryId: true,
 		}),
 		PUT_PRODUCT: Product.pick({
 			name: true,
 			prices: true,
+			imageURL: true,
 			description: true,
 			categoryId: true,
 		}),

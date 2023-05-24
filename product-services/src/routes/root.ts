@@ -87,10 +87,10 @@ const root: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
 			...TAGS,
 		},
 	}, async (request, response) => {
-		const {name, description, prices, categoryId} = request.body;
+		const {name, imageURL, description, prices, categoryId} = request.body;
 		const productCreated = await fastify.prisma.product.create({
 			data: {
-				name, prices, description, categoryId,
+				name, prices, description, categoryId, imageURL,
 			},
 		});
 		return response.status(201).send(productCreated);
@@ -108,12 +108,12 @@ const root: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
 		},
 	}, async (request, response) => {
 		const {id} = request.params;
-		const {name, description, prices, categoryId} = request.body;
+		const {name, imageURL, description, prices, categoryId} = request.body;
 		const productUpdated = await fastify.prisma.product.update({
 			where: {
 				id,
 			}, data: {
-				name, prices, description, categoryId,
+				name, imageURL, prices, description, categoryId,
 			},
 		});
 		return response.send(productUpdated);
