@@ -77,9 +77,11 @@ export const CategorySchema = {
 	body: {
 		POST_CATEGORY: Category.pick({
 			name: true,
+			imageURL: true,
 		}),
 		PUT_CATEGORY: Category.pick({
 			name: true,
+			imageURL: true,
 		}),
 	},
 	response: {

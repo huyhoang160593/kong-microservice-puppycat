@@ -22,7 +22,6 @@ const category: FastifyPluginAsync = async (fastify, _otps): Promise<void> => {
 				product: true,
 			},
 		});
-		console.dir(categories, {depth: null});
 		return response.send(categories);
 	});
 
@@ -62,10 +61,11 @@ const category: FastifyPluginAsync = async (fastify, _otps): Promise<void> => {
 			...TAGS,
 		},
 	}, async (request, response) => {
-		const {name} = request.body;
+		const {name, imageURL} = request.body;
 		const categoryCreated = await fastify.prisma.category.create({
 			data: {
 				name,
+				imageURL,
 			},
 		});
 		return response.status(201).send(categoryCreated);
@@ -83,12 +83,12 @@ const category: FastifyPluginAsync = async (fastify, _otps): Promise<void> => {
 		},
 	}, async (request, response) => {
 		const {id} = request.params;
-		const {name} = request.body;
+		const {name, imageURL} = request.body;
 		const categoryUpdated = await fastify.prisma.category.update({
 			where: {
 				id,
 			}, data: {
-				name,
+				name, imageURL,
 			},
 		});
 		return response.send(categoryUpdated);
