@@ -17,9 +17,7 @@ model Product {
   imageURL      String?      @db.Text
   description   String?      @db.Text
   categoryId    String       @db.Uuid
-  category      Category     @relation(fields: [categoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  subcategoryId String?      @db.Uuid
-  subCategory   SubCategory? @relation(fields: [subcategoryId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  category      Category     @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
@@ -30,18 +28,6 @@ model Category {
   name        String?       @db.VarChar(255)
   imageURL    String?       @db.Text
   product     Product[]
-  subCategory SubCategory[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-}
-
-model SubCategory {
-  id         String    @id @default(uuid()) @db.Uuid
-  name       String?   @db.VarChar(255)
-  categoryId String    @db.Uuid
-  category   Category  @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  product    Product[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt

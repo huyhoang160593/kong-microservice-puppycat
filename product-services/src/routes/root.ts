@@ -135,7 +135,7 @@ const root: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
 			throw fastify.httpErrors.badRequest(`The product with id ${id} is not exist in the database`);
 		}
 
-		return response.status(204);
+		return response.status(204).send();
 	});
 };
 

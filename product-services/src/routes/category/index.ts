@@ -104,12 +104,14 @@ const category: FastifyPluginAsync = async (fastify, _otps): Promise<void> => {
 		},
 	}, async (request, response) => {
 		const {id} = request.params;
-		const deletedCategory = await fastify.prisma.category.delete({where: {id}});
-		if (!deletedCategory) {
+		try {
+			await fastify.prisma.category.delete({where: {id}});
+		} catch (error) {
+			console.log(error);
 			throw fastify.httpErrors.badRequest(`The category with id ${id} is not exist in the database`);
 		}
 
-		return response.status(204);
+		return response.code(204).send();
 	});
 };
 
