@@ -33,6 +33,7 @@ export const UserSchema = {
 			token: z.string(),
 			email: z.string().email().describe('email of the user'),
 			name: z.string().nullable(),
+			id: z.string(),
 		}),
 		PUT_USER: User,
 	},

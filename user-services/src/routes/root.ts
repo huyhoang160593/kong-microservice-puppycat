@@ -81,7 +81,7 @@ const root: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
 		const token = fastify.jwt.sign(userForToken);
 
 		return response.send({
-			token, email, name: userFound.name,
+			token, email, name: userFound.name, id: userFound.id,
 		});
 	});
 
