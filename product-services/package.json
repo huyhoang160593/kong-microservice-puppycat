@@ -16,7 +16,7 @@
     "prisma:migrate": "prisma migrate dev",
     "start": "tsx src/server.ts",
     "start:prod": "node dist/server.js",
-    "start:dev": "pnpm prisma:migrate && pnpm dev:watch"
+    "start:dev": "pnpm prisma:migrate && pnpm start"
   },
   "dependencies": {
     "@fastify/autoload": "^5.7.1",

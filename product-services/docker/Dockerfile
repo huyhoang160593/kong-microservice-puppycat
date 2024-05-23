@@ -21,4 +21,4 @@ COPY .eslintrc.js package.json pnpm-lock.yaml tsconfig.json ./
 RUN pnpm install --frozen-lockfile
 
 EXPOSE 8080
-CMD [ "pnpm", "start" ]
+CMD [ "pnpm", "start:dev" ]
