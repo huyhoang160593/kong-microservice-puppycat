@@ -25,7 +25,10 @@ const app: FastifyPluginAsync<AppOptions> = async (
 				description: 'The microserver for product',
 				version: '0.0.1',
 			},
-			servers: [],
+			servers: [{
+				url: 'http://localhost:8000/productServices',
+				description: 'Kong Gateway Server',
+			}],
 		},
 		transform: jsonSchemaTransform,
 	});
