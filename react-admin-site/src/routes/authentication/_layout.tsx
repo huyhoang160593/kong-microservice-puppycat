@@ -10,7 +10,7 @@ function AuthLayoutComponent() {
     <main className={cn('flex items-center justify-center h-screen')}>
       <article className="card card-side bg-neutral shadow-xl">
         <figure>
-          <img src="https://picsum.photos/200/280/" alt="random image" />
+          <img src="https://picsum.photos/400/560/" alt="random image" />
         </figure>
         <section className="card-body">
           <Outlet />

@@ -25,7 +25,7 @@ function Login() {
       set(data);
       document.dispatchEvent(
         generateCustomEvent('displayalert', {
-          message: 'Login Successful! Redirecting to dashboard...',
+          message: 'Đăng nhập thành công! Chuyển hướng về màn hình chính ',
           type: 'success',
         })
       );
@@ -33,7 +33,7 @@ function Login() {
     onError() {
       document.dispatchEvent(
         generateCustomEvent('displayalert', {
-          message: 'Email or password is incorrect. Please try again...',
+          message: 'Sai tài khoản hoặc mật khẩu, vui lòng kiểm tra lại',
           type: 'error',
         })
       );
@@ -58,9 +58,11 @@ function Login() {
     login(safeParseResult.data);
   };
   return (
-    <form onSubmit={handleLoginSubmit}>
+    <form onSubmit={handleLoginSubmit} className="flex flex-col justify-center h-full">
       <fieldset className="flex flex-col gap-4">
-        <legend className="text-xl font-bold mb-3">Login into dashboard</legend>
+        <legend className="text-xl font-bold mb-10 uppercase">
+          Đăng nhập vào giao diện Dashboard
+        </legend>
         <label className="input input-bordered flex items-center gap-2">
           <PhEnvelopeSimpleDuotone />
           <input
@@ -76,12 +78,12 @@ function Login() {
             name="password"
             type="password"
             className="grow"
-            placeholder="Password"
+            placeholder="Mật khẩu"
           />
         </label>
       </fieldset>
       <fieldset className="flex mt-6">
-        <button className="btn flex-grow">Login</button>
+        <button className="btn flex-grow">Đăng nhập</button>
       </fieldset>
     </form>
   );
