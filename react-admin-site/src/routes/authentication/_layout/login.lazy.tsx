@@ -7,7 +7,8 @@ import {
 } from '@/hooks/mutations/usePostLogin';
 import { generateCustomEvent } from '@/misc/utils';
 import { useLocalStorageValue } from '@react-hookz/web';
-import { createLazyFileRoute } from '@tanstack/react-router';
+import { createLazyFileRoute, useNavigate } from '@tanstack/react-router';
+import { useEffect } from 'react';
 import { z } from 'zod';
 
 export const Route = createLazyFileRoute('/authentication/_layout/login')({
@@ -19,7 +20,8 @@ const LoginSchema = z.object({
   password: z.string(),
 });
 function Login() {
-  const { set } = useLocalStorageValue<PostLoginResponse>(USER_TOKEN);
+  const navigate = useNavigate()
+  const { set, value } = useLocalStorageValue<PostLoginResponse>(USER_TOKEN);
   const { mutate: login } = usePostLogin({
     onSuccess(data) {
       set(data);
@@ -57,6 +59,12 @@ function Login() {
     }
     login(safeParseResult.data);
   };
+
+  useEffect(() => {
+    if(value) {
+      navigate({to: '/'})
+    }
+  }, [navigate, value])
   return (
     <form onSubmit={handleLoginSubmit} className="flex flex-col justify-center h-full">
       <fieldset className="flex flex-col gap-4">
