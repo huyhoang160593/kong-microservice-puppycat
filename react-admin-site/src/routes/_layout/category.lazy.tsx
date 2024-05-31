@@ -18,7 +18,7 @@ const CategorySchema = z.object({
 });
 function Category() {
   const dialogRef = useRef<HTMLDialogElement | null>(null);
-  const nameInputRef = useRef<HTMLInputElement | null>(null);
+  const formRef = useRef<HTMLFormElement | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(
@@ -51,6 +51,7 @@ function Category() {
       );
       if (!dialogRef.current) return;
       dialogRef.current.close();
+      setImageFile(null);
       refetch();
     },
     onError() {
@@ -130,14 +131,19 @@ function Category() {
     setDialogMode('edit');
     if (!dialogRef.current) return;
     dialogRef.current.showModal();
-    if (!nameInputRef.current) return;
-    nameInputRef.current.value = newSelectedCategory.name;
+    if (!formRef.current) return;
+    (formRef.current.name as unknown as HTMLInputElement).value = newSelectedCategory.name
   }, []);
+
   const onNewModalOpen = useCallback(() => {
     setDialogMode('new');
+    setSelectedCategory(null);
     if (!dialogRef.current) return;
+    if (!formRef.current) return;
+    formRef.current.reset();
     dialogRef.current.showModal();
   }, []);
+
   const onSubmitForm = useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
@@ -170,12 +176,13 @@ function Category() {
       }
       if (dialogMode === 'edit') {
         if (!selectedCategory) return;
-        if (!imageFile) {
+        if (!imageFileFromForm.name) {
           putCategory({
             id: selectedCategory.id,
             name,
             imageURL: selectedCategory.imageURL,
           });
+          return;
         }
         const apiResult = await postImageAsync({
           image: imageFileFromForm,
@@ -189,14 +196,7 @@ function Category() {
         });
       }
     },
-    [
-      dialogMode,
-      imageFile,
-      postCategory,
-      postImageAsync,
-      putCategory,
-      selectedCategory,
-    ]
+    [dialogMode, postCategory, postImageAsync, putCategory, selectedCategory]
   );
   return (
     <article className="card w-[97%] h-full bg-neutral text-neutral-content">
@@ -274,12 +274,11 @@ function Category() {
           </form>
           <h3 className="font-bold text-lg">{dialogTitle}</h3>
           <section className="divider"></section>
-          <form onSubmit={onSubmitForm}>
+          <form ref={formRef} onSubmit={onSubmitForm}>
             <fieldset className="flex flex-col gap-4">
               <label className="input input-bordered flex items-center gap-2">
                 <span className="font-bold">Tên danh mục</span>
                 <input
-                  ref={nameInputRef}
                   name="name"
                   type="text"
                   className="grow"

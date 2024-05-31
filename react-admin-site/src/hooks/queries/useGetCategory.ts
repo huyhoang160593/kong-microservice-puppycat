@@ -30,10 +30,10 @@ export interface Category {
   id: string;
   name: string;
   imageURL: string;
-  product: Product[];
+  product: CategoryProduct[];
 }
 
-export interface Product {
+export interface CategoryProduct {
   id: string;
   name: string;
   prices: number;
