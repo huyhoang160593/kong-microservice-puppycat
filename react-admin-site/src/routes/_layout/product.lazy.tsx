@@ -338,7 +338,9 @@ function ProductPage() {
             <tfoot>
               <tr>
                 <th>Ảnh</th>
-                <th>Tên Danh Mục</th>
+                <th>Tên sản phẩm</th>
+                <th>Giá(VND)</th>
+                <th>Danh mục</th>
                 <th></th>
               </tr>
             </tfoot>

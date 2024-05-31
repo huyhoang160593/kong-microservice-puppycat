@@ -20,7 +20,6 @@ import { Route as AuthenticationLayoutImport } from './routes/authentication/_la
 
 const AuthenticationImport = createFileRoute('/authentication')()
 const LayoutIndexLazyImport = createFileRoute('/_layout/')()
-const LayoutSettingLazyImport = createFileRoute('/_layout/setting')()
 const LayoutProfileLazyImport = createFileRoute('/_layout/profile')()
 const LayoutProductLazyImport = createFileRoute('/_layout/product')()
 const LayoutLogoutLazyImport = createFileRoute('/_layout/logout')()
@@ -45,13 +44,6 @@ const LayoutIndexLazyRoute = LayoutIndexLazyImport.update({
   path: '/',
   getParentRoute: () => LayoutRoute,
 } as any).lazy(() => import('./routes/_layout/index.lazy').then((d) => d.Route))
-
-const LayoutSettingLazyRoute = LayoutSettingLazyImport.update({
-  path: '/setting',
-  getParentRoute: () => LayoutRoute,
-} as any).lazy(() =>
-  import('./routes/_layout/setting.lazy').then((d) => d.Route),
-)
 
 const LayoutProfileLazyRoute = LayoutProfileLazyImport.update({
   path: '/profile',
@@ -147,13 +139,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutProfileLazyImport
       parentRoute: typeof LayoutImport
     }
-    '/_layout/setting': {
-      id: '/_layout/setting'
-      path: '/setting'
-      fullPath: '/setting'
-      preLoaderRoute: typeof LayoutSettingLazyImport
-      parentRoute: typeof LayoutImport
-    }
     '/_layout/': {
       id: '/_layout/'
       path: '/'
@@ -179,7 +164,6 @@ export const routeTree = rootRoute.addChildren({
     LayoutLogoutLazyRoute,
     LayoutProductLazyRoute,
     LayoutProfileLazyRoute,
-    LayoutSettingLazyRoute,
     LayoutIndexLazyRoute,
   }),
   AuthenticationRoute: AuthenticationRoute.addChildren({
@@ -208,7 +192,6 @@ export const routeTree = rootRoute.addChildren({
         "/_layout/logout",
         "/_layout/product",
         "/_layout/profile",
-        "/_layout/setting",
         "/_layout/"
       ]
     },
@@ -239,10 +222,6 @@ export const routeTree = rootRoute.addChildren({
     },
     "/_layout/profile": {
       "filePath": "_layout/profile.lazy.tsx",
-      "parent": "/_layout"
-    },
-    "/_layout/setting": {
-      "filePath": "_layout/setting.lazy.tsx",
       "parent": "/_layout"
     },
     "/_layout/": {
